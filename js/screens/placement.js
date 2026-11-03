@@ -42,7 +42,9 @@ export async function render({ pid }) {
   }
 
   async function start() {
+    const hashBefore = location.hash;
     let voice = await voicesReady(1500);
+    if (location.hash !== hashBefore) return; // navigated away while we waited
     // 3 random words per grade (not the same three every time).
     const plan = GRADES.map(g => ({ grade: g, words: shuffle(wordsForGrade(g)).slice(0, PER_GRADE) })).filter(p => p.words.length);
     const results = []; // { grade, ok }

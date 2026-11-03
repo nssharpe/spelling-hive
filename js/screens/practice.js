@@ -30,8 +30,9 @@ export async function render({ pid }) {
   if (!prog.placementDone) { app.go(`/p/${pid}/placement`); return; }
 
   setView('<p class="muted" style="text-align:center">Getting your words ready…</p>');
+  const hashBefore = location.hash;
   let voice = await voicesReady(1500);
-  if (!document.getElementById('app')) return;
+  if (location.hash !== hashBefore) return; // the kid tapped a link while we waited: don't paint over that screen
 
   const words = [...ALL_WORDS, ...app.db.customWords];
   const byCard = new Map(words.map(w => [cardId(w.id), w]));
