@@ -1,6 +1,8 @@
 // UI helpers: modals, confirm, and small bits of markup.
 
 import { escapeHtml } from './util.js';
+import { app } from './app.js';
+import { beeHtml } from './art.js';
 
 export const e = escapeHtml;
 
@@ -60,14 +62,28 @@ export function confirmModal(title, body, { yes = 'Yes', no = 'Cancel', danger =
   }).then(v => v === true);
 }
 
-export function starsHtml(n) {
-  return `<div class="stars" aria-label="${n} of 5 stars">${[1, 2, 3, 4, 5].map(i => `<span class="${i <= n ? '' : 'off'}">⭐</span>`).join('')}</div>`;
+// Where the "← Hub" link goes for the kid who was handed over from the family hub.
+export function hubUrl(kid) {
+  return 'https://nssharpe.github.io/family-hub/#/kid/' + encodeURIComponent(kid || '');
+}
+
+// The top bar: brand on the left, "← Hub" (only when this device came from the hub) and grown-ups on the right.
+export function renderBar() {
+  const bar = document.getElementById('bar');
+  if (!bar) return;
+  const hub = app.db && app.db.hub;
+  bar.innerHTML = `<a class="brand" href="#/" aria-label="Spell Hive home">${beeHtml({ size: 'sm', idle: false })}<span>Spell Hive</span></a>
+    <nav aria-label="Site">
+      ${hub && hub.kid ? `<a href="${e(hubUrl(hub.kid))}">← Hub</a>` : ''}
+      <a href="#/grown-ups">Grown-ups</a>
+    </nav>`;
 }
 
 export function setView(html, { wide = false } = {}) {
   const root = document.getElementById('app');
   root.className = wide ? 'wide' : '';
   root.innerHTML = html;
+  renderBar();
   window.scrollTo(0, 0);
   return root;
 }

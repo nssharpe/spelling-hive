@@ -3,10 +3,13 @@
 import { loadDB, saveDB } from './store.js';
 import { toast } from './fx.js';
 import { syncNow } from './cloud.js';
+import { createOutbox } from './hub-client.js';
+import { OUTBOX_KEY } from './hubtickets.js';
 
 export const app = {
   db: null,
   storage: null,
+  _outbox: null,
 
   init() {
     try { this.storage = window.localStorage; this.storage.getItem('x'); }
@@ -19,13 +22,25 @@ export const app = {
     if (this.db.sync) scheduleSync();
   },
 
+  // Pending hub ticket events, kept in localStorage until the hub confirms them.
+  outbox() {
+    if (!this._outbox) this._outbox = createOutbox(this.storage, OUTBOX_KEY);
+    return this._outbox;
+  },
+
+  // Send any pending ticket events to the hub (no-op without a hub code).
+  flushTickets() {
+    const code = this.db.hub && this.db.hub.code;
+    return code ? this.outbox().flush(code) : Promise.resolve({ sent: 0, failed: 0 });
+  },
+
   // Sync with the family's cloud copy now. Re-renders calm screens when
   // something arrived from another device (never mid-practice or mid-placement).
   async sync() {
     if (!this.db.sync) return { ok: false };
     clearTimeout(syncTimer);
     const res = await syncNow(() => this.db, this.storage);
-    if (res.ok && res.changed && !/^#\/p\/[\w-]+\/(practice|placement)/.test(location.hash) && !document.querySelector('#modal-root .modal-back')) {
+    if (res.ok && res.changed && !/^#\/(p\/[\w-]+\/(practice|placement)|grown-ups)/.test(location.hash) && !document.querySelector('#modal-root .modal-back')) {
       window.dispatchEvent(new HashChangeEvent('hashchange'));
     }
     return res;

@@ -6,8 +6,8 @@ spaced repetition. Progress syncs through the family hub's Firebase project, and
 first-try-correct words become hub tickets. Structure and back end are copied from
 Les Cartes de Mamou (`C:\dev\mamou-french`); the look is its own (bee and honeycomb).
 
-Status: back end and a placeholder shell only. The word bank (grades 5-12), the spelling
-engine (check, grade adaptation, placement, queue) and the real screens come later.
+Status: working app. Back end, word bank (grades 5-12), spelling engine, screens, voice,
+the bee/honeycomb look, and hub tickets are in. Not published yet (no GitHub repo or Pages).
 
 ## Ground rules
 
@@ -33,7 +33,22 @@ engine (check, grade adaptation, placement, queue) and the real screens come lat
 | `js/cloud.js` | Firestore REST: pull, `merge3`, conditional PATCH, retried on conflict. |
 | `js/app.js` | Singleton `app` (db, save, go, sync) and the sync loop. |
 | `js/main.js` | Hash router. Screens live in `js/screens/*`, each exporting `render({pid, arg, params})`. |
-| `js/ui.js`, `js/fx.js` | Modals, confirm, helpers; confetti, toasts, floaters. |
+| `js/ui.js`, `js/fx.js` | Modals, confirm, `setView` (also draws the top bar, with "← Hub" when the device came from the hub); confetti, toasts, floaters. |
+| `js/hub-client.js` | Copied verbatim from `nssharpe/family-hub` `js/hub-client.js` (first line is the only difference). Keep identical. `readHandoff`, `createOutbox`, `getHub`, `effectiveSettings`. |
+| `js/hubtickets.js` | `awardTickets`, `settleSession`, hub-rate cache (`spell-hive:hub-settings`), outbox key (`spell-hive:outbox`). Pure. |
+| `js/audio.js` | English voice picking (en-US, en-GB, any en), `sayWord` ("word. sentence. word."), `voicesReady`, sound effects. |
+| `js/art.js` | Bea the bee (moods happy/wow/sad/wink/think) and a hex shape, as inline SVG. |
+| `js/screens/` | `home.js` (players, kid page), `practice.js` (+ `summary.js`, not a route), `placement.js`, `grownups.js`, `common.js` (prompt, diff rows). |
+
+## Practice rules
+
+- `recordAttempt` runs once per word *presented*; the forced retype after a miss is never recorded. The SRS card is scheduled separately (AGAIN on a miss, GOOD on a right answer), then `updateGrade` runs.
+- First-try-correct words are banked into `prog.ticketUnits` as they happen (only with a hub code and a hub kid, `zyler`/`kadyn`). `settleSession` turns whole multiples of `spellingWordsPerTicket` (hub rate, default 3) into one `spelling:<kid>:<ts>` event for the outbox; the remainder stays. Leaving mid-session still settles.
+- Without an English voice (`voicesReady` waits ~1.5 s once), the prompt shows the sentence with the word blanked, plus the meaning, and replay is hidden.
+- Placement (3 words per grade, stop at a grade with 2 misses) never records attempts or tickets; leaving part-way saves nothing.
+- Listeners must go on a wrapper element a screen creates, not on `#app` (it outlives screens).
+- Grown-ups is gated by the AMC 8 Quest parent password (SHA-256 only is in the source).
+- The hub opens the app with `#hub=<code>&kid=<kid>`; `main.js` reads it before routing, joins sync with that code, and opens `#/p/<kid>`.
 
 ## Data model (`spell-hive:v1`)
 
