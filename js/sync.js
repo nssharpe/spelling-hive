@@ -109,6 +109,7 @@ export function mergeProgress3(base, local, remote) {
 
   out.grade = pick(hasBase, b.grade, l.grade, r.grade) ?? out.grade;
   out.placementDone = !!(l.placementDone || r.placementDone);
+  out.gradeChangedAt = Math.max(l.gradeChangedAt || 0, r.gradeChangedAt || 0); // keeps the adaptation window across syncs
   out.history = mergeHistory(l.history, r.history);
   out.ticketUnits = Math.max(0, count(b.ticketUnits, l.ticketUnits, r.ticketUnits));
 

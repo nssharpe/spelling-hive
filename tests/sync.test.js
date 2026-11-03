@@ -101,6 +101,14 @@ test('grade: the side that changed wins; the family wins on first join', () => {
   assert.equal(j.progress.kadyn.grade, 6);
 });
 
+test('gradeChangedAt survives a merge (latest wins), so the grade window is not lost', () => {
+  const { base, a, b } = twoDevices();
+  a.progress.zyler.gradeChangedAt = 500;
+  b.progress.zyler.gradeChangedAt = 900;
+  assert.equal(merge3(base, a, b).progress.zyler.gradeChangedAt, 900);
+  assert.equal(merge3(base, a, clone(base)).progress.zyler.gradeChangedAt, 500);
+});
+
 test('placementDone sticks once either side finished it', () => {
   const { base, a, b } = twoDevices();
   b.progress.zyler.placementDone = true;

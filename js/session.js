@@ -1,80 +1,16 @@
-// Which cards to study today, and the order to show them in a session.
+// Card ids and the in-session loop. Which words to study is chosen by
+// buildSpellingQueue in spell.js.
 // Spell Hive has one card per word, with id `w:<wordId>` (built-in bank words and
 // grown-up custom words alike).
 
-import { newCard } from './srs.js';
-import { MIN, dayKey, dayStartPlus, shuffle } from './util.js';
+import { MIN } from './util.js';
 
 // Like Anki's "learn ahead limit": with nothing else left, a learning card due
 // within this window is shown early instead of ending the session.
 export const MIN_LEARN_AHEAD = 20 * MIN;
 
-export const DEFAULT_NEW_PER_DAY = 10;
-
 export const cardId = wordId => `w:${wordId}`;
 export const wordIdOf = id => id.slice(2);
-
-const blankDay = () => ({ attempted: 0, firstTry: 0, newW: 0 });
-
-export function today(prog, now) {
-  const k = dayKey(now);
-  if (!prog.days[k]) prog.days[k] = blankDay();
-  return prog.days[k];
-}
-
-export function peekToday(prog, now) {
-  return prog.days[dayKey(now)] || blankDay();
-}
-
-/**
- * Snapshot of today's study state for one kid, over the given words.
- *   due:     ids of cards to review now (learning first, then reviews by due date)
- *   later:   learning cards that come back later today
- *   fresh:   ids of brand-new cards allowed today (in word order)
- *   moreNew: how many more brand-new words exist beyond today's allowance
- */
-export function todayPlan(prog, words, now, { newPerDay = DEFAULT_NEW_PER_DAY } = {}) {
-  const d = peekToday(prog, now);
-  const limit = Math.max(0, newPerDay - (d.newW || 0));
-  const learning = [], reviews = [], later = [];
-  const fresh = [];
-  let moreNew = 0;
-
-  for (const w of words) {
-    const id = cardId(w.id);
-    const c = prog.cards[id];
-    if (!c || c.state === 'new') {
-      if (fresh.length < limit) fresh.push(id); else moreNew++;
-    } else if (c.due <= now) {
-      (c.state === 'review' ? reviews : learning).push(id);
-    } else if (c.state !== 'review' && c.due < dayStartPlus(now, 1)) {
-      later.push(id);
-    }
-  }
-  const byDue = (a, b) => prog.cards[a].due - prog.cards[b].due;
-  learning.sort(byDue);
-  reviews.sort(byDue);
-  return { due: [...learning, ...reviews], later, fresh, moreNew, limit };
-}
-
-// Interleave new cards among reviews (roughly one new card every 3 reviews) so a
-// session doesn't start with a wall of unknown words.
-export function buildQueue(plan, rng = Math.random) {
-  const due = plan.due.slice();
-  const fresh = plan.fresh.slice();
-  const out = [];
-  const gap = fresh.length ? Math.max(1, Math.floor(due.length / (fresh.length + 1))) : 0;
-  let i = 0;
-  while (due.length || fresh.length) {
-    if (fresh.length && (i % (gap + 1) === gap || !due.length)) out.push(fresh.shift());
-    else out.push(due.shift());
-    i++;
-  }
-  // Light shuffle inside windows of 4 keeps order mostly by priority but not predictable.
-  const res = [];
-  for (let k = 0; k < out.length; k += 4) res.push(...shuffle(out.slice(k, k + 4), rng));
-  return res;
-}
 
 /**
  * Runs one study session. Cards still in learning steps (due within the
@@ -119,5 +55,3 @@ export class Session {
     return this.pending.length + this.learning.size;
   }
 }
-
-export { newCard };

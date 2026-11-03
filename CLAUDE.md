@@ -25,7 +25,9 @@ engine (check, grade adaptation, placement, queue) and the real screens come lat
 | File | What it does |
 |---|---|
 | `js/srs.js` | Anki SM-2 (copied as is from Les Cartes). States new/learning/review/relearning, 4am day start. `formatDelay` still returns French suffixes (`j`, `mois`, `an`); fix it if a screen ever shows intervals. |
-| `js/session.js` | One card per word, id `w:<wordId>`. `todayPlan` (due, later, fresh within `newPerDay`), `buildQueue`, `Session` (learning cards come back in-session with a 20-minute learn-ahead). |
+| `js/session.js` | One card per word, id `w:<wordId>`. `Session` (learning cards come back in-session with a 20-minute learn-ahead). |
+| `js/spell.js` | `normalize`, `checkSpelling` (+ letter diff), `recordAttempt` (history, `card.miss`, stats; does not schedule), `buildSpellingQueue`. |
+| `js/level.js` | `updateGrade` (adapts grade from first-try rates since `gradeChangedAt`), `placementStart`. |
 | `js/store.js` | Data model, `loadDB`/`saveDB`/`migrate`, kids, custom-word edits with tombstones. |
 | `js/sync.js` | Pure three-way merge (base / local / remote), `syncDoc`/`applyDoc`, `isHubCode`. |
 | `js/cloud.js` | Firestore REST: pull, `merge3`, conditional PATCH, retried on conflict. |
@@ -42,7 +44,7 @@ engine (check, grade adaptation, placement, queue) and the real screens come lat
 Word     = { id, word, sentence?, definition?, grade: 5..12 | 'custom', u? }
 Progress = { cards:{[cardId]: Card}, grade, placementDone,
              history:[{wordId, grade, firstTry, ts}] (last 200),
-             ticketUnits, stats:{attempted, firstTryRight}, days:{}, epoch }
+             gradeChangedAt, ticketUnits, stats:{attempted, firstTryRight}, days:{}, epoch }
 ```
 
 - Built-in bank words are code (`data/`, later), not in `db`. Only grown-up words live in `customWords`.

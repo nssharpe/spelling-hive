@@ -11,7 +11,7 @@
 // Word     = { id, word, sentence?, definition?, grade: 5..12 | 'custom', u? }
 //            (the built-in word bank is code, not data in db; only grown-up words live here)
 // Progress = { cards: {cardId: Card}, grade: 5..12, placementDone, history: [{wordId, grade, firstTry, ts}]
-//              (last 200), ticketUnits, stats: {attempted, firstTryRight}, days: {}, epoch }
+//              (last 200), gradeChangedAt (ts of the last grade up/down), ticketUnits, stats: {attempted, firstTryRight}, days: {}, epoch }
 // Card ids are `w:<wordId>`: one card per word (see session.js).
 
 import { uid } from './util.js';
@@ -35,6 +35,7 @@ export function newProgress() {
     cards: {},
     grade: MIN_GRADE,
     placementDone: false,
+    gradeChangedAt: 0, // when the grade last moved; the grade-adaptation window starts after it
     history: [],
     ticketUnits: 0, // first-try-correct words not yet turned into hub tickets
     stats: { attempted: 0, firstTryRight: 0 },
