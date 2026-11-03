@@ -1,0 +1,32 @@
+<!doctype html>
+<html lang="en" translate="no">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <title>Spell Hive</title>
+  <meta name="description" content="Spell Hive: hear the word, type it, and build your spelling.">
+  <meta name="color-scheme" content="light">
+  <!-- The spelling words are the lesson: keep auto-translate extensions away. -->
+  <meta name="google" content="notranslate">
+  <link rel="stylesheet" href="css/app.css">
+</head>
+<body>
+  <main id="app" aria-live="polite">
+    <h1>Spell Hive</h1>
+    <p class="muted" id="loading">Loading…</p>
+  </main>
+  <div id="toasts" aria-live="assertive"></div>
+  <div id="modal-root"></div>
+  <canvas id="fx" aria-hidden="true"></canvas>
+  <noscript><p style="text-align:center;padding:2rem">This app needs JavaScript turned on.</p></noscript>
+  <script type="module" src="js/main.js"></script>
+  <script>
+    // If the app hasn't started after a while (bad connection, stale files), offer a reload.
+    setTimeout(function () {
+      if (window.__spellHiveStarted) return;
+      var t = document.getElementById('loading');
+      if (t) t.innerHTML = 'Loading slowly… <button onclick="location.reload()">Reload</button>';
+    }, 7000);
+  </script>
+</body>
+</html>

@@ -1,0 +1,20 @@
+/* Minimal neutral stub. The honeycomb/bee look comes in the screens task.
+   Light theme only. Pairs (resolved):
+   --ink #1F1F26 on --bg #FFFFFF  = 16.4:1
+   --muted #55555F on --bg #FFFFFF = 7.4:1 */
+:root {
+  color-scheme: light;
+  --bg: #FFFFFF;
+  --ink: #1F1F26;
+  --muted: #55555F;
+  --line: #D6D6DC;
+}
+* { box-sizing: border-box; }
+html, body { margin: 0; background: var(--bg); color: var(--ink); font-family: system-ui, sans-serif; }
+#app { max-width: 640px; margin: 0 auto; padding: 24px 16px; }
+.muted { color: var(--muted); }
+.kids { list-style: none; padding: 0; }
+.kid { padding: 12px 0; border-bottom: 1px solid var(--line); }
+button, .btn { font: inherit; color: var(--ink); background: var(--bg); border: 1px solid var(--muted); border-radius: 8px; padding: 6px 12px; }
+#modal-root:empty, #toasts:empty { display: none; }
+#fx { position: fixed; inset: 0; width: 100%; height: 100%; pointer-events: none; z-index: 250; }
