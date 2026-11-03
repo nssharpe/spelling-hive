@@ -43,7 +43,7 @@ export function renderKid({ pid }) {
   const earn = hub && hubKidOk(pid);
   const need = Math.max(1, Math.ceil(per - (prog.ticketUnits || 0)));
   const cta = prog.placementDone
-    ? `<a class="btn primary big" href="#/p/${e(pid)}/practice">Start practising</a>`
+    ? `<a class="btn primary big" href="#/p/${e(pid)}/practice">Start practicing</a>`
     : `<a class="btn primary big" href="#/p/${e(pid)}/placement">Let's find your level</a>`;
 
   setView(`<div class="hero">

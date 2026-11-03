@@ -18,7 +18,7 @@ test('first sync with an empty cloud uploads this device as-is', () => {
   assert.deepEqual(merge3(null, local, null), local);
 });
 
-test('two devices practise different words and both cards merge', () => {
+test('two devices practice different words and both cards merge', () => {
   const { base, a, b } = twoDevices();
   a.progress.zyler.cards['w:g5-believe'] = { ...newCard(), state: 'learning', last: 100 };
   b.progress.zyler.cards['w:g5-library'] = { ...newCard(), state: 'review', ivl: 2, last: 150 };
@@ -205,7 +205,7 @@ test('syncing is idempotent', () => {
   assert.deepEqual(merge3(m, clone(m), clone(m)), m);
 });
 
-test('hub family codes are recognised', () => {
+test('hub family codes are recognized', () => {
   assert.ok(isHubCode('hub-abcde-fghjk-23456-mnpqr'));
   assert.ok(isHubCode(' hub-abcde-fghjk-23456-mnpqr '));
   assert.ok(!isHubCode('hub-abc'));

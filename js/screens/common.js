@@ -63,7 +63,7 @@ export function answerInputHtml(id = 'ans', label = 'Type the word') {
 //   typed row – what she typed: wrong letters underlined, extra letters struck through, gaps where
 //               letters were left out.
 // For `wrong` the diff carries the word's letter, so her letter comes from walking her input alongside.
-// Returns safe HTML with screen-reader text so colour is never the only cue.
+// Returns safe HTML with screen-reader text so color is never the only cue.
 export function diffRowsHtml(diff, input, target = '') {
   const typed = [...normalize(input)];
   const shown = [...String(target || '').normalize('NFC')]; // the word as written ("February"), for display

@@ -1,4 +1,4 @@
-// The placement round, shown the first time a kid practises: 3 words per grade, starting at
+// The placement round, shown the first time a kid practices: 3 words per grade, starting at
 // grade 5 and going up, until a grade has 2 misses. No right/wrong feedback while it runs, and
 // nothing here touches history, cards, stats or tickets: placement only sets the starting grade.
 // Leaving part-way saves nothing, so an aborted round never places a kid (placementStart([])
@@ -124,7 +124,7 @@ export async function render({ pid }) {
       ${beeHtml({ mood: 'wow', size: 'lg' })}
       <h1>You're starting at grade ${start}</h1>
       <p class="lead">I'll pick words that fit, and move you up as you get them right.</p>
-      <div class="row center"><a class="btn primary big" href="#/p/${e(pid)}/practice">Start practising</a></div>
+      <div class="row center"><a class="btn primary big" href="#/p/${e(pid)}/practice">Start practicing</a></div>
     </div>`);
     setBee(root.querySelector('.bee'), 'wow', 'bounce');
   }

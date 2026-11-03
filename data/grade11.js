@@ -1,7 +1,7 @@
 // Grade 11 spelling words. Written fresh for Spelling Hive.
 export default [
   { id: "g11-abhorrent", word: "abhorrent", sentence: "The idea of cheating on a test is abhorrent to her.", definition: "hateful; causing deep disgust", grade: 11 },
-  { id: "g11-abrasive", word: "abrasive", sentence: "The abrasive sponge scraped the burnt food off the pan.", definition: "rough and wearing away a surface", grade: 11 },
+  { id: "g11-abrasive", word: "abrasive", sentence: "The abrasive sponge scraped the burned food off the pan.", definition: "rough and wearing away a surface", grade: 11 },
   { id: "g11-abstain", word: "abstain", sentence: "Please abstain from talking during the quiz.", definition: "to hold oneself back from doing something", grade: 11 },
   { id: "g11-accolade", word: "accolade", sentence: "The young chef received an accolade for her soup.", definition: "an award or expression of praise", grade: 11 },
   { id: "g11-accrue", word: "accrue", sentence: "Interest will accrue in your savings account each month.", definition: "to build up gradually over time", grade: 11 },

@@ -43,9 +43,9 @@ export function renderSummary(d) {
     ${grade}
     ${ticket}
     ${n ? `<div class="panel"><h3>Spelled right first try</h3>${chips(d.right)}</div>` : ''}
-    ${d.again.length ? `<div class="panel soft"><h3>Practise these again</h3><p class="muted small">They'll come back soon.</p>${chips(d.again, 'again')}</div>` : ''}
+    ${d.again.length ? `<div class="panel soft"><h3>Practice these again</h3><p class="muted small">They'll come back soon.</p>${chips(d.again, 'again')}</div>` : ''}
     <div class="row center">
-      <button class="btn primary big" id="more">Practise more</button>
+      <button class="btn primary big" id="more">Practice more</button>
       <a class="btn big" href="#/p/${e(d.pid)}">Done</a>
     </div>`);
 

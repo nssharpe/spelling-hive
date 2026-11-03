@@ -90,7 +90,7 @@ function view() {
 
     <div class="panel">
       <h3>Your own words</h3>
-      <p class="muted small">Added words are practised first. The sentence and meaning are optional. Without a sentence the app just says the word.</p>
+      <p class="muted small">Added words are practiced first. The sentence and meaning are optional. Without a sentence the app just says the word.</p>
       <form id="addform" autocomplete="off" class="stack">
         <label class="field"><span>Word</span><input type="text" id="w-word" maxlength="40" autocomplete="off" autocapitalize="off" autocorrect="off" spellcheck="false"></label>
         <label class="field"><span>Sentence (optional)</span><input type="text" id="w-sentence" maxlength="200" autocomplete="off"></label>

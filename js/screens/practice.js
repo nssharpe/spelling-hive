@@ -35,7 +35,7 @@ export async function render({ pid }) {
   const byCard = new Map(words.map(w => [cardId(w.id), w]));
   const queue = buildSpellingQueue(prog, words, Date.now(), SESSION_SIZE);
   if (!queue.length) {
-    setView(`<div class="panel hero">${beeHtml({ mood: 'wink' })}<h2>Nothing to practise right now</h2><p>You're all caught up. Come back later!</p><a class="btn primary" href="#/p/${e(pid)}">Back</a></div>`);
+    setView(`<div class="panel hero">${beeHtml({ mood: 'wink' })}<h2>Nothing to practice right now</h2><p>You're all caught up. Come back later!</p><a class="btn primary" href="#/p/${e(pid)}">Back</a></div>`);
     return;
   }
 
@@ -55,7 +55,7 @@ export async function render({ pid }) {
 
   setView(`<div class="practice">
     <div class="topline">
-      <a class="btn ghost" href="#/p/${e(pid)}" id="quit" aria-label="Stop practising">✕ Finish</a>
+      <a class="btn ghost" href="#/p/${e(pid)}" id="quit" aria-label="Stop practicing">✕ Finish</a>
       <span class="count" id="count" aria-live="polite"></span>
     </div>
     <div class="progress" id="pg" aria-hidden="true"></div>

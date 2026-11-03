@@ -98,7 +98,7 @@ test('settleSession: without a hub code, or for a non-hub kid, nothing is awarde
   assert.equal(prog.ticketUnits, 5);
 });
 
-test('settleSession: honours the hub rate', () => {
+test('settleSession: honors the hub rate', () => {
   const prog = newProgress();
   prog.ticketUnits = 4;
   const r = settleSession(prog, { ...ctx, rates: { spellingWordsPerTicket: 2 } });

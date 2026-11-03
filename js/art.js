@@ -1,5 +1,5 @@
 // Inline SVG: Bea the bee (the mascot) and honeycomb bits. All inline so nothing has to load.
-// Colours are decorative (never text), but match the tokens in css/app.css.
+// Colors are decorative (never text), but match the tokens in css/app.css.
 
 const INK = '#2B1B0A';
 const HONEY = '#F5B800';

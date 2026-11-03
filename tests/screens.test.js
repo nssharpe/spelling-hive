@@ -26,7 +26,7 @@ test('diffRowsHtml: extra letters are struck through, the word row skips them', 
   assert.equal(text(r.word.replace(/<div[^>]*>|<\/div>/g, '')), 'necessary');
   assert.equal((r.typed.match(/class="l extra"/g) || []).length, 1);
   assert.equal(text(r.typed.replace(/<div[^>]*>|<\/div>/g, '')), 'neccessary');
-  assert.ok(r.typed.includes('(extra letter)'), 'screen-reader text, so colour is never the only cue');
+  assert.ok(r.typed.includes('(extra letter)'), 'screen-reader text, so color is never the only cue');
 });
 
 test('diffRowsHtml: a wrong letter shows her letter in her row and the right one in the word row', () => {
@@ -66,7 +66,7 @@ test('promptHtml: a custom word with no sentence has no sentence button, and no 
   assert.ok(promptHtml(w, { voice: false }).includes('No sound on this device'));
 });
 
-test('the answer input is not auto-corrected, auto-capitalised or spell-checked', () => {
+test('the answer input is not auto-corrected, auto-capitalized or spell-checked', () => {
   const h = answerInputHtml('ans');
   for (const a of ['autocomplete="off"', 'autocorrect="off"', 'autocapitalize="off"', 'spellcheck="false"']) assert.ok(h.includes(a), a);
 });

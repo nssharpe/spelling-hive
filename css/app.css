@@ -1,8 +1,8 @@
 /* Spelling Hive: a honeycomb look. Warm paper, deep comb-brown ink, hex tiles, honey-gold fills.
-   Light theme only, on purpose (color-scheme: light) so OS dark mode can't recolour anything.
+   Light theme only, on purpose (color-scheme: light) so OS dark mode can't recolor anything.
 
    CONTRAST (WCAG 2.x, computed from the hex values below; all pass AA):
-   Honey gold (--honey) is only ever a BACKGROUND or a drawing fill, never a text colour
+   Honey gold (--honey) is only ever a BACKGROUND or a drawing fill, never a text color
    on a light surface (honey on --bg is 1.73:1).
      ink on bg 16.06 | on panel 16.62 | on honey-pale 14.58 | on honey-soft 15.35
      ink-soft on bg 8.12 | panel 8.40 | honey-pale 7.37 | honey-soft 7.76
@@ -15,7 +15,7 @@
            missing slot ink on honey-pale 14.58 | same letter ink on panel 16.62
      toast: toast-text on toast-bg 16.06 | sub text 13.05 | toast.gold ink on honey-pale 14.58
      UI edges: --edge on panel 5.03 / bg 4.86 (need 3) | focus ring ink on bg 16.06 / honey 9.29
-   The diff never relies on colour alone: wrong = underline, missing = dashed box, extra = strike-through. */
+   The diff never relies on color alone: wrong = underline, missing = dashed box, extra = strike-through. */
 
 :root {
   color-scheme: light;
