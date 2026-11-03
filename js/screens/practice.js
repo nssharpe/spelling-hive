@@ -162,7 +162,7 @@ export async function render({ pid }) {
   }
 
   function showMiss(w, res, raw, skipped, again = false) {
-    const rows = diffRowsHtml(res.diff, skipped ? '' : raw);
+    const rows = diffRowsHtml(res.diff, skipped ? '' : raw, w.word);
     $('#fb').innerHTML = `<div class="fb bad" role="status">
       <h2>${again ? 'Not quite yet.' : 'Not quite.'} Here's the word:</h2>
       ${rows.word}

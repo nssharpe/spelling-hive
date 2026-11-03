@@ -1,4 +1,4 @@
-// Confetti, floating "+10 XP" text and toasts.
+// Confetti and toasts.
 
 import { escapeHtml } from './util.js';
 
@@ -56,17 +56,6 @@ function step() {
   }
   raf = parts.length ? requestAnimationFrame(step) : null;
   if (!raf) g.clearRect(0, 0, c.width, c.height);
-}
-
-export function floatText(text, el, { gold = false } = {}) {
-  const r = el ? el.getBoundingClientRect() : { left: innerWidth / 2, top: innerHeight / 2, width: 0, height: 0 };
-  const f = document.createElement('div');
-  f.className = 'floater' + (gold ? ' gold' : '');
-  f.textContent = text;
-  f.style.left = `${r.left + r.width / 2 - 30 + (Math.random() * 30 - 15)}px`;
-  f.style.top = `${r.top + r.height / 2 - 20}px`;
-  document.body.appendChild(f);
-  setTimeout(() => f.remove(), 1200);
 }
 
 export function toast(title, { sub = '', icon = '✨', gold = false, ms = 3200 } = {}) {

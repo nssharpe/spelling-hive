@@ -212,7 +212,7 @@ function editWord(id, done) {
   if (!w) return;
   openModal({
     title: 'Edit word',
-    body: `<label class="field"><span>Word</span><input type="text" id="m-word" value="${e(w.word)}" maxlength="40" autocomplete="off" autocapitalize="off" spellcheck="false"></label>
+    body: `<label class="field"><span>Word</span><input type="text" id="m-word" value="${e(w.word)}" maxlength="40" autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false"></label>
       <label class="field"><span>Sentence (optional)</span><input type="text" id="m-sentence" value="${e(w.sentence || '')}" maxlength="200" autocomplete="off"></label>
       <label class="field"><span>Meaning (optional)</span><input type="text" id="m-def" value="${e(w.definition || '')}" maxlength="200" autocomplete="off"></label>
       <p class="err" id="m-err" role="alert"></p>`,

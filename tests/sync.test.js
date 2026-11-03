@@ -109,11 +109,25 @@ test('gradeChangedAt survives a merge (latest wins), so the grade window is not 
   assert.equal(merge3(base, a, clone(base)).progress.zyler.gradeChangedAt, 500);
 });
 
-test('placementDone sticks once either side finished it', () => {
-  const { base, a, b } = twoDevices();
+test('placementDone is a single value: whoever changed it since the last sync wins, in both directions', () => {
+  // finished on B (false -> true), A untouched: true, whichever side is "local"
+  let { base, a, b } = twoDevices();
   b.progress.zyler.placementDone = true;
   assert.equal(merge3(base, a, b).progress.zyler.placementDone, true);
   assert.equal(merge3(base, b, a).progress.zyler.placementDone, true);
+  // "Run placement again" on A (true -> false), B untouched: false, and sync doesn't revert it
+  ({ base, a, b } = twoDevices());
+  base.progress.zyler.placementDone = a.progress.zyler.placementDone = b.progress.zyler.placementDone = true;
+  a.progress.zyler.placementDone = false;
+  assert.equal(merge3(base, a, b).progress.zyler.placementDone, false);
+  assert.equal(merge3(base, b, a).progress.zyler.placementDone, false);
+});
+
+test('placementDone with no base (first join): finished on either side counts', () => {
+  const { a, b } = twoDevices();
+  b.progress.zyler.placementDone = true;
+  assert.equal(merge3(null, a, b).progress.zyler.placementDone, true);
+  assert.equal(merge3(null, b, a).progress.zyler.placementDone, true);
 });
 
 test('a custom word deleted on A stays deleted, even though B still has it and its progress', () => {

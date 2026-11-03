@@ -7,7 +7,7 @@ first-try-correct words become hub tickets. Structure and back end are copied fr
 Les Cartes de Mamou (`C:\dev\mamou-french`); the look is its own (bee and honeycomb).
 
 Status: working app. Back end, word bank (grades 5-12), spelling engine, screens, voice,
-the bee/honeycomb look, and hub tickets are in. Not published yet (no GitHub repo or Pages).
+the bee/honeycomb look, and hub tickets are in. Not published yet (no GitHub repo or Pages). Live URL (once published): https://nssharpe.github.io/spell-hive/
 
 ## Ground rules
 
@@ -45,6 +45,8 @@ the bee/honeycomb look, and hub tickets are in. Not published yet (no GitHub rep
 ## Practice rules
 
 - `recordAttempt`, the ticket unit and `updateGrade` happen only on a word's FIRST showing in a session. A card still in learning steps comes back later in the same session (learn-ahead); those re-shows only schedule the SRS card (AGAIN on a miss, GOOD on a right answer). The forced retype after a miss is never recorded.
+- Grown-up (custom) words are logged with grade `'custom'`, so they never move the kid's grade (they still earn tickets).
+- A ticket unit is banked only if the card was new or due before the answer (R17): the queue pads a short session with not-yet-due known cards, and those pay 0 (history and SRS still update). A miss on any showing stamps `card.miss`, so the word can't re-earn the same day.
 - First-try-correct words are banked into `prog.ticketUnits` as they happen (only with a hub code and a hub kid, `zyler`/`kadyn`). `settleSession` turns whole multiples of `spellingWordsPerTicket` (hub rate, default 3) into one `spelling:<kid>:<ts>` event for the outbox; the remainder stays. Leaving mid-session still settles.
 - Without an English voice (`voicesReady` waits ~1.5 s once), the prompt shows the sentence with the word blanked, plus the meaning, and replay is hidden.
 - Placement (3 words per grade, stop at a grade with 2 misses) never records attempts or tickets; leaving part-way saves nothing.
@@ -60,11 +62,11 @@ the bee/honeycomb look, and hub tickets are in. Not published yet (no GitHub rep
   settings:{sound, voice, rate}, sync: null | {code, base, last}, hub: null | {code, kid} }
 Word     = { id, word, sentence?, definition?, grade: 5..12 | 'custom', u? }
 Progress = { cards:{[cardId]: Card}, grade, placementDone,
-             history:[{wordId, grade, firstTry, ts}] (last 200),
+             history:[{wordId, grade (5..12, or 'custom' for grown-up words), firstTry, ts}] (last 200),
              gradeChangedAt, ticketUnits, stats:{attempted, firstTryRight}, days:{}, epoch }
 ```
 
-- Built-in bank words are code (`data/`, later), not in `db`. Only grown-up words live in `customWords`.
+- Built-in bank words are code (`data/grade5.js` to `grade12.js`), not in `db`. Only grown-up words live in `customWords`.
 - Default kid ids are fixed (`zyler`, `kadyn`, the hub's canonical ids) so devices merge.
 - Card ids are `w:<wordId>`. Word ids are stable, so edits keep progress.
 
@@ -76,7 +78,7 @@ Progress = { cards:{[cardId]: Card}, grade, placementDone,
   - Cards: the latest `last` wins.
   - `history`: union by `(wordId, ts)`, newest 200 kept.
   - `ticketUnits`, `stats`, per-day numbers: counters, `remote + (local − base)`.
-  - `grade`: the side that changed wins (local wins a tie). `placementDone`: either side.
+  - `grade`: the side that changed wins (local wins a tie). `placementDone`: a single value like grade (the side that changed it since the last sync wins, so "Run placement again" sticks); with no base, finished on either side counts.
   - `customWords`: last writer wins by `u`; deletions leave a tombstone in `deleted`, and the tombstone beats any edit older than it.
   - A progress reset bumps `epoch`, and the newest epoch wins outright.
   - Only cards of *tombstoned* words are dropped on merge. Built-in words are not in `customWords`, so never drop "cards for unknown words".

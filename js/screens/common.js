@@ -64,22 +64,26 @@ export function answerInputHtml(id = 'ans', label = 'Type the word') {
 //               letters were left out.
 // For `wrong` the diff carries the word's letter, so her letter comes from walking her input alongside.
 // Returns safe HTML with screen-reader text so colour is never the only cue.
-export function diffRowsHtml(diff, input) {
+export function diffRowsHtml(diff, input, target = '') {
   const typed = [...normalize(input)];
-  let p = 0;
-  const word = [];
+  const shown = [...String(target || '').normalize('NFC')]; // the word as written ("February"), for display
+  let p = 0, j = 0;
+  // The word's own letter at this position (keeps a proper noun's capital), else the diff's.
+  const own = ch => { const c = shown[j++]; return c && normalize(c) === ch ? c : ch; };
+  const wordCells = [];
   const mine = [];
   for (const d of diff) {
     if (d.kind === 'same') {
       p++;
-      word.push(`<span class="l same">${e(d.ch)}</span>`);
+      const c = own(d.ch);
+      wordCells.push(`<span class="l same">${e(c)}</span>`);
       mine.push(`<span class="l same">${e(d.ch)}</span>`);
     } else if (d.kind === 'wrong') {
       const t = typed[p++] ?? '';
-      word.push(`<span class="l wrong">${e(d.ch)}<span class="sr"> (this letter was wrong)</span></span>`);
+      wordCells.push(`<span class="l wrong">${e(own(d.ch))}<span class="sr"> (this letter was wrong)</span></span>`);
       mine.push(`<span class="l wrong">${e(t)}<span class="sr"> (wrong letter)</span></span>`);
     } else if (d.kind === 'missing') {
-      word.push(`<span class="l missing">${e(d.ch)}<span class="sr"> (you left this out)</span></span>`);
+      wordCells.push(`<span class="l missing">${e(own(d.ch))}<span class="sr"> (you left this out)</span></span>`);
       mine.push('<span class="l gap"><span class="sr">(left out)</span>&nbsp;</span>');
     } else { // extra: only in her answer
       const t = typed[p++] ?? d.ch;
@@ -87,7 +91,7 @@ export function diffRowsHtml(diff, input) {
     }
   }
   return {
-    word: `<div class="diffrow" aria-label="Correct spelling">${word.join('')}</div>`,
+    word: `<div class="diffrow" aria-label="Correct spelling">${wordCells.join('')}</div>`,
     typed: `<div class="diffrow typed" aria-label="Your answer">${mine.join('')}</div>`,
     legend: '<p class="legend">Underlined: a wrong letter. Dashed box: a letter you left out. Struck through: an extra letter.</p>',
   };

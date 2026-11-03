@@ -98,7 +98,6 @@ export default [
   { id: "g8-transparent", word: "transparent", sentence: "Glass is transparent, so we can see through it.", definition: "clear enough to see through", grade: 8 },
   { id: "g8-unique", word: "unique", sentence: "Every snowflake is unique.", definition: "one of a kind", grade: 8 },
   { id: "g8-vague", word: "vague", sentence: "His directions were so vague that we got lost.", definition: "unclear; not definite", grade: 8 },
-  { id: "g8-valuable", word: "valuable", sentence: "The map was old and valuable.", definition: "worth a lot of money or use", grade: 8 },
   { id: "g8-ventilation", word: "ventilation", sentence: "Good ventilation keeps the kitchen from getting stuffy.", definition: "a flow of fresh air through a space", grade: 8 },
   { id: "g8-verdict", word: "verdict", sentence: "The jury reached a verdict after two hours.", definition: "a decision made by a jury", grade: 8 },
   { id: "g8-vicinity", word: "vicinity", sentence: "There are no stores in the vicinity of the farm.", definition: "the area near a place", grade: 8 },
@@ -154,4 +153,5 @@ export default [
   { id: "g8-negligence", word: "negligence", sentence: "The accident was caused by negligence.", definition: "failure to take proper care", grade: 8 },
   { id: "g8-nutrient", word: "nutrient", sentence: "Spinach is rich in the nutrient iron.", definition: "a substance that living things need to grow", grade: 8 },
   { id: "g8-oasis", word: "oasis", sentence: "The travelers rested at an oasis in the desert.", definition: "a fertile spot with water in a desert", grade: 8 },
+  { id: "g8-glamorous", word: "glamorous", sentence: "She looked glamorous in a long silver dress.", definition: "exciting and attractive in a fancy way", grade: 8 },
 ];

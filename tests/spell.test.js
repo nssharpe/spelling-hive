@@ -105,14 +105,14 @@ test('recordAttempt: sets card.miss on a miss (creating the card), keeps existin
   assert.ok(prog.cards[cardId('g5-library')].miss);
 });
 
-test('recordAttempt: history entry has the word grade (built-in) or prog.grade (custom), and stats update', () => {
+test('recordAttempt: history entry has the word grade (built-in) or "custom", and stats update', () => {
   const prog = newProgress();
   prog.grade = 7;
   recordAttempt(prog, 'g5-believe', true, T0);
   recordAttempt(prog, 'c-custom1', true, T0 + 1);
   recordAttempt(prog, 'c-custom1', false, T0 + 2);
   assert.deepEqual(prog.history[0], { wordId: 'g5-believe', grade: 5, firstTry: true, ts: T0 });
-  assert.equal(prog.history[1].grade, 7);
+  assert.equal(prog.history[1].grade, 'custom');
   assert.deepEqual(prog.stats, { attempted: 3, firstTryRight: 2 });
 });
 

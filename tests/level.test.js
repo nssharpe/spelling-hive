@@ -118,3 +118,11 @@ test('placement: results after the stop grade are ignored; order does not matter
 test('placement: no results starts at 12 only if nothing was missed', () => {
   assert.equal(placementStart([]), 12);
 });
+
+test('custom-word history entries never count toward a grade move', () => {
+  const p = prog(6, [...attempts('custom', 25, 25), ...attempts(6, 5, 5, T0 - 500000)]);
+  assert.equal(updateGrade(p, T0).changed, null);
+  const q = prog(6, [...attempts(6, 10, 10, T0 - 900000), ...attempts('custom', 30, 0)]);
+  assert.equal(updateGrade(q, T0).changed, null, 'a pile of missed custom words does not move a kid down either');
+  assert.equal(q.grade, 6);
+});

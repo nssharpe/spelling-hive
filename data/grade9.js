@@ -65,7 +65,6 @@ export default [
   { id: "g9-recognize", word: "recognize", sentence: "I didn't recognize him with his new haircut.", definition: "to know from having seen before", grade: 9 },
   { id: "g9-repetition", word: "repetition", sentence: "Repetition helps me memorize the spelling list.", definition: "doing or saying something again and again", grade: 9 },
   { id: "g9-ridiculous", word: "ridiculous", sentence: "The clown wore a ridiculous hat.", definition: "very silly; absurd", grade: 9 },
-  { id: "g9-scissors", word: "scissors", sentence: "Hand me the scissors so I can cut the paper.", definition: "a tool with two blades for cutting", grade: 9 },
   { id: "g9-secretary", word: "secretary", sentence: "The secretary answered the phone politely.", definition: "a person who handles office paperwork and calls", grade: 9 },
   { id: "g9-sergeant", word: "sergeant", sentence: "The sergeant gave clear orders to the troops.", definition: "a military rank above corporal", grade: 9 },
   { id: "g9-significant", word: "significant", sentence: "There was a significant change in the weather.", definition: "important; large enough to matter", grade: 9 },
@@ -151,7 +150,8 @@ export default [
   { id: "g9-ingredient", word: "ingredient", sentence: "Flour is the main ingredient in bread.", definition: "one of the foods used to make a recipe", grade: 9 },
   { id: "g9-inhibit", word: "inhibit", sentence: "Cold weather can inhibit the growth of plants.", definition: "to hold back or slow down", grade: 9 },
   { id: "g9-insulate", word: "insulate", sentence: "Foam will insulate the attic and keep the house warm.", definition: "to cover something so heat cannot escape", grade: 9 },
-  { id: "g9-kindergarten", word: "kindergarten", sentence: "My little sister starts kindergarten this fall.", definition: "the first year of school for young children", grade: 9 },
   { id: "g9-malfunction", word: "malfunction", sentence: "A malfunction in the oven ruined dinner.", definition: "a failure to work properly", grade: 9 },
   { id: "g9-mandatory", word: "mandatory", sentence: "Helmets are mandatory for all riders.", definition: "required by a rule or law", grade: 9 },
+  { id: "g9-acknowledgment", word: "acknowledgment", sentence: "The author included an acknowledgment to everyone who helped.", definition: "a statement thanking or recognizing someone", grade: 9 },
+  { id: "g9-beneficiary", word: "beneficiary", sentence: "She is the beneficiary of her uncle's will.", definition: "a person who receives money or help from something", grade: 9 },
 ];

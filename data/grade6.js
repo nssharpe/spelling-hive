@@ -154,4 +154,11 @@ export default [
   { id: "g6-pioneer", word: "pioneer", sentence: "The pioneer drove a wagon across the plains.", definition: "one of the first people to settle a new place", grade: 6 },
   { id: "g6-potatoes", word: "potatoes", sentence: "Dad mashed the potatoes with butter.", definition: "starchy vegetables that grow underground", grade: 6 },
   { id: "g6-raspberry", word: "raspberry", sentence: "The raspberry jam tasted sweet and tart.", definition: "a soft red berry that grows on a bush", grade: 6 },
+  { id: "g6-strength", word: "strength", sentence: "It takes strength to carry that heavy backpack.", definition: "physical power", grade: 6 },
+  { id: "g6-temperature", word: "temperature", sentence: "The temperature dropped below freezing last night.", definition: "how hot or cold something is", grade: 6 },
+  { id: "g6-schedule", word: "schedule", sentence: "Our practice schedule changes every week.", definition: "a plan listing when things will happen", grade: 6 },
+  { id: "g6-restaurant", word: "restaurant", sentence: "We ate dinner at a Mexican restaurant.", definition: "a place where meals are served and bought", grade: 6 },
+  { id: "g6-knowledge", word: "knowledge", sentence: "Reading builds your knowledge of the world.", definition: "facts and understanding gained by learning", grade: 6 },
+  { id: "g6-scissors", word: "scissors", sentence: "Hand me the scissors so I can cut the paper.", definition: "a tool with two blades for cutting", grade: 6 },
+  { id: "g6-kindergarten", word: "kindergarten", sentence: "My little sister starts kindergarten this fall.", definition: "the first year of school for young children", grade: 6 },
 ];

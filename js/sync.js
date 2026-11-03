@@ -108,7 +108,10 @@ export function mergeProgress3(base, local, remote) {
   }
 
   out.grade = pick(hasBase, b.grade, l.grade, r.grade) ?? out.grade;
-  out.placementDone = !!(l.placementDone || r.placementDone);
+  // A single value, like grade: the side that changed it since the last sync wins, so a grown-up's
+  // "Run placement again" (true -> false) isn't undone by the other device. With no base (first
+  // join) neither side has "changed" anything, so finishing placement anywhere counts.
+  out.placementDone = hasBase ? !!pick(true, !!b.placementDone, !!l.placementDone, !!r.placementDone) : !!(l.placementDone || r.placementDone);
   out.gradeChangedAt = Math.max(l.gradeChangedAt || 0, r.gradeChangedAt || 0); // keeps the adaptation window across syncs
   out.history = mergeHistory(l.history, r.history);
   out.ticketUnits = Math.max(0, count(b.ticketUnits, l.ticketUnits, r.ticketUnits));

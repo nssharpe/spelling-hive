@@ -94,8 +94,10 @@ export function recordAttempt(prog, wordId, ok, now) {
   const today = dayKey(now);
   const firstTry = !!ok && !(prog.cards[id] && prog.cards[id].miss === today);
 
-  const w = wordById(wordId); // built-in words carry their grade; grown-up words use the kid's grade
-  const grade = w ? w.grade : prog.grade;
+  // Built-in words carry their grade. Grown-up words are logged as 'custom', so they never move the
+  // kid's grade (updateGrade only counts entries at the current numeric grade).
+  const w = wordById(wordId);
+  const grade = w ? w.grade : 'custom';
   prog.history.push({ wordId, grade, firstTry, ts: now });
   if (prog.history.length > HISTORY_MAX) prog.history.splice(0, prog.history.length - HISTORY_MAX);
 

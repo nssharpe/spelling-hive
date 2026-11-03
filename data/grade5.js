@@ -4,7 +4,7 @@ export default [
   { id: "g5-library", word: "library", sentence: "We borrow books from the library every Saturday.", definition: "a place where books can be borrowed", grade: 5 },
   { id: "g5-favorite", word: "favorite", sentence: "Pizza is my favorite food.", definition: "liked best of all", grade: 5 },
   { id: "g5-separate", word: "separate", sentence: "Please separate the red socks from the white ones.", definition: "to keep or set apart", grade: 5 },
-  { id: "g5-february", word: "february", sentence: "It often snows in February.", definition: "the second month of the year", grade: 5 },
+  { id: "g5-february", word: "February", sentence: "It often snows in February.", definition: "the second month of the year", grade: 5 },
   { id: "g5-because", word: "because", sentence: "We stayed inside because it was raining.", definition: "for the reason that", grade: 5 },
   { id: "g5-friend", word: "friend", sentence: "My best friend lives next door.", definition: "a person you know well and like", grade: 5 },
   { id: "g5-people", word: "people", sentence: "Many people came to watch the parade.", definition: "men, women, and children", grade: 5 },
@@ -155,4 +155,8 @@ export default [
   { id: "g5-build", word: "build", sentence: "They build forts with blankets.", definition: "to make by putting parts together", grade: 5 },
   { id: "g5-busy", word: "busy", sentence: "Dad was busy cooking dinner.", definition: "having a lot to do", grade: 5 },
   { id: "g5-women", word: "women", sentence: "Several women waited in line.", definition: "grown-up female people", grade: 5 },
+  { id: "g5-truly", word: "truly", sentence: "I am truly sorry for being late.", definition: "really; sincerely", grade: 5 },
+  { id: "g5-weird", word: "weird", sentence: "It was weird to see my teacher at the grocery store.", definition: "strange or unusual", grade: 5 },
+  { id: "g5-vegetable", word: "vegetable", sentence: "Broccoli is my favorite vegetable.", definition: "a plant, such as a carrot, eaten as food", grade: 5 },
+  { id: "g5-lightning", word: "lightning", sentence: "Lightning flashed across the dark sky.", definition: "a bright flash of electricity in a storm", grade: 5 },
 ];

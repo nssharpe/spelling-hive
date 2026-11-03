@@ -49,6 +49,7 @@ async function route() {
     cleanup = c;
   } catch (e) {
     console.error(e);
+    if (seq !== renderSeq) return; // a newer screen is showing: don't overwrite it with this one's error
     document.getElementById('app').innerHTML = `<div class="panel"><h2>Something broke.</h2><p>${String(e.message || e).replace(/</g, '&lt;')}</p><a class="btn primary" href="#/">Back home</a></div>`;
   }
 }

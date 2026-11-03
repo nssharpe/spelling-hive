@@ -2,6 +2,7 @@ import test from 'node:test';
 import assert from 'node:assert/strict';
 import { blankSentence, diffRowsHtml, promptHtml, answerInputHtml } from '../js/screens/common.js';
 import { checkSpelling } from '../js/spell.js';
+import { wordById } from '../js/words.js';
 
 const text = html => html.replace(/<span class="sr">[^<]*<\/span>/g, '').replace(/<[^>]+>/g, '');
 
@@ -68,4 +69,18 @@ test('promptHtml: a custom word with no sentence has no sentence button, and no 
 test('the answer input is not auto-corrected, auto-capitalised or spell-checked', () => {
   const h = answerInputHtml('ans');
   for (const a of ['autocomplete="off"', 'autocorrect="off"', 'autocapitalize="off"', 'spellcheck="false"']) assert.ok(h.includes(a), a);
+});
+
+test('February is a proper noun: matching ignores case, the correct spelling shows the capital', () => {
+  const feb = wordById('g5-february');
+  assert.equal(feb.word, 'February');
+  for (const typed of ['february', 'FEBRUARY', ' February ']) assert.equal(checkSpelling(typed, feb.word).ok, true, typed);
+  assert.equal(checkSpelling('febuary', feb.word).ok, false);
+  const r = diffRowsHtml(checkSpelling('febuary', feb.word).diff, 'febuary', feb.word);
+  assert.equal(text(r.word.replace(/<div[^>]*>|<\/div>/g, '')), 'February');
+  assert.ok(r.word.includes('>F<'), 'capital F in the correct-spelling row');
+  assert.equal(text(r.typed.replace(/<div[^>]*>|<\/div>/g, '')).replace(/&nbsp;/g, ''), 'febuary');
+  // a miss on the very first letter still shows the word's own capital
+  const r2 = diffRowsHtml(checkSpelling('xebruary', feb.word).diff, 'xebruary', feb.word);
+  assert.ok(r2.word.includes('>F<'));
 });

@@ -25,12 +25,16 @@ test('words are unique across all grades (case-insensitive)', () => {
   assert.deepEqual(dups, []);
 });
 
-test('ids are unique and start with g<grade>-', () => {
+// Words that are proper nouns keep their capital letter (checkSpelling is case-insensitive anyway).
+const PROPER_NOUNS = new Set(['February']);
+
+test('ids are unique, lowercase, and exactly g<grade>-<word lowercased, apostrophes removed>', () => {
   const ids = new Set();
   for (const w of ALL_WORDS) {
     assert.ok(!ids.has(w.id), `duplicate id ${w.id}`);
     ids.add(w.id);
-    assert.ok(w.id.startsWith(`g${w.grade}-`), w.id);
+    assert.equal(w.id, w.id.toLowerCase(), `${w.id} is not lowercase`);
+    assert.equal(w.id, `g${w.grade}-${w.word.toLowerCase().replace(/['’]/g, '')}`, w.id);
   }
 });
 
@@ -50,8 +54,24 @@ test('definition does not contain the word and has at most 12 words', () => {
   }
 });
 
-test('words are only letters, apostrophes or hyphens', () => {
-  for (const w of ALL_WORDS) assert.match(w.word, /^[A-Za-z'-]+$/, w.id);
+test('words are lowercase letters, apostrophes or hyphens (a capital only for the listed proper nouns)', () => {
+  for (const w of ALL_WORDS) {
+    assert.match(w.word, /^[A-Za-z'-]+$/, w.id);
+    if (PROPER_NOUNS.has(w.word)) assert.match(w.word, /^[A-Z][a-z]+$/, w.id);
+    else assert.equal(w.word, w.word.toLowerCase(), `${w.id} has a capital but is not a listed proper noun`);
+  }
+  assert.equal(wordById('g5-february').word, 'February');
+});
+
+test('easy words were moved down to the grades where they fit (R18)', () => {
+  const expect = {
+    5: ['truly', 'weird', 'vegetable', 'lightning'],
+    6: ['strength', 'temperature', 'schedule', 'restaurant', 'knowledge', 'scissors', 'kindergarten'],
+    7: ['valuable', 'succeed', 'misspell', 'villain', 'tournament', 'guardian', 'playwright', 'vacuum'],
+  };
+  for (const [g, list] of Object.entries(expect)) {
+    for (const word of list) assert.equal(wordById(`g${g}-${word}`)?.grade, +g, word);
+  }
 });
 
 test('grade field matches its file and is a number', () => {
