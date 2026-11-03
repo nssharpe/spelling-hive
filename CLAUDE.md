@@ -1,4 +1,4 @@
-# Spell Hive — CLAUDE.md
+# Spelling Hive — CLAUDE.md
 
 Spelling app for Nate's kids (Zyler and Kadyn), grades 5 to 12. The kid hears a word,
 then a sentence using it, then the word again, and types it. Missed words come back with
@@ -7,14 +7,14 @@ first-try-correct words become hub tickets. Structure and back end are copied fr
 Les Cartes de Mamou (`C:\dev\mamou-french`); the look is its own (bee and honeycomb).
 
 Status: working app. Back end, word bank (grades 5-12), spelling engine, screens, voice,
-the bee/honeycomb look, and hub tickets are in. Not published yet (no GitHub repo or Pages). Live URL (once published): https://nssharpe.github.io/spell-hive/
+the bee/honeycomb look, and hub tickets are in. Not published yet (no GitHub repo or Pages). Live URL (once published): https://nssharpe.github.io/spelling-hive/
 
 ## Ground rules
 
-- **No build step.** Plain ES modules loaded by `index.html`. Use relative URLs only, with no leading `/`, because the site will live under `/spell-hive/` on GitHub Pages.
+- **No build step.** Plain ES modules loaded by `index.html`. Use relative URLs only, with no leading `/`, because the site will live under `/spelling-hive/` on GitHub Pages.
 - **Shared origin.** Every Pages app on `nssharpe.github.io` shares localStorage and the Cache API.
-  - All data lives under the single key `spell-hive:v1` (`js/store.js`).
-  - The service worker (when added) touches only caches that start with `spell-hive-`.
+  - All data lives under the single key `spelling-hive:v1` (`js/store.js`).
+  - The service worker (when added) touches only caches that start with `spelling-hive-`.
 - **Light theme only** (`color-scheme: light`). Every text/background pair must pass WCAG AA; resolve the tokens and compute the ratios.
 - **`translate="no"`** on `<html>` plus `<meta name="google" content="notranslate">`. The answer input uses `autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false"`.
 - **Pure logic stays pure.** `srs.js`, `session.js`, `store.js`, `sync.js` and `util.js` must not touch the DOM at import time, because `npm test` imports them in node. `cloud.js` only touches `fetch`/`navigator` when called.
@@ -37,7 +37,7 @@ the bee/honeycomb look, and hub tickets are in. Not published yet (no GitHub rep
 | `js/hub-client.js` | Copied verbatim from `nssharpe/family-hub` `js/hub-client.js` (first line is the only difference). Keep identical. `readHandoff`, `createOutbox`, `getHub`, `effectiveSettings`. |
 | `js/practice-core.js` | `applyAnswer`: the per-answer bookkeeping, pure. recordAttempt, ticket unit and updateGrade only on a word's FIRST showing in a session (R13); every showing schedules the SRS card. |
 | `js/routes.js` | Route table, `resolve`, `redirectFor` (unknown kid goes home). Pure. |
-| `js/hubtickets.js` | `awardTickets`, `settleSession`, hub-rate cache (`spell-hive:hub-settings`), outbox key (`spell-hive:outbox`). Pure. |
+| `js/hubtickets.js` | `awardTickets`, `settleSession`, hub-rate cache (`spelling-hive:hub-settings`), outbox key (`spelling-hive:outbox`). Pure. |
 | `js/audio.js` | English voice picking (en-US, en-GB, any en), `sayWord` ("word. sentence. word."), `voicesReady`, sound effects. |
 | `js/art.js` | Bea the bee (moods happy/wow/sad/wink/think) and a hex shape, as inline SVG. |
 | `js/screens/` | `home.js` (players, kid page), `practice.js` (+ `summary.js`, not a route), `placement.js`, `grownups.js`, `common.js` (prompt, diff rows). |
@@ -54,7 +54,7 @@ the bee/honeycomb look, and hub tickets are in. Not published yet (no GitHub rep
 - Grown-ups is gated by the AMC 8 Quest parent password (SHA-256 only is in the source).
 - The hub opens the app with `#hub=<code>&kid=<kid>`; `main.js` reads it before routing, joins sync with that code, and opens `#/p/<kid>`.
 
-## Data model (`spell-hive:v1`)
+## Data model (`spelling-hive:v1`)
 
 ```
 { v, profiles:[{id, name, avatar, u}], customWords:[Word], deleted:{id:ts},
@@ -73,6 +73,7 @@ Progress = { cards:{[cardId]: Card}, grade, placementDone,
 ## Sync (`sharpe-family` Firebase project)
 
 - **Project:** `sharpe-family` (the family hub's project, on Nate's personal Google account, Spark plan). No SDK and no sign-in; REST calls only.
+- **Names:** the app and its storage namespace are `spelling-hive` (repo `nssharpe/spelling-hive`). The Firestore collection `spelling/` and the ticket app id `spelling` are NOT renamed: the hub's rules and contract depend on them.
 - **Document:** `spelling/<hubCode>`, where `<hubCode>` is the hub family code (`hub-xxxxx-xxxxx-xxxxx-xxxxx`). The code is the secret. The Firestore rules belong to the hub project.
 - **Merge rules (`js/sync.js`):**
   - Cards: the latest `last` wins.

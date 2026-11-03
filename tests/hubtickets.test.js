@@ -46,8 +46,8 @@ test('ratesFrom / cachedRates: defaults, validation, pending settings', () => {
 });
 
 test('storage keys are namespaced to this app', () => {
-  assert.equal(SETTINGS_KEY, 'spell-hive:hub-settings');
-  assert.equal(OUTBOX_KEY, 'spell-hive:outbox');
+  assert.equal(SETTINGS_KEY, 'spelling-hive:hub-settings');
+  assert.equal(OUTBOX_KEY, 'spelling-hive:outbox');
 });
 
 test('hubKidOk: only the hub\'s kids can earn tickets', () => {

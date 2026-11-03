@@ -1,4 +1,4 @@
-// Grade 8 spelling words. Written fresh for Spell Hive.
+// Grade 8 spelling words. Written fresh for Spelling Hive.
 export default [
   { id: "g8-accommodate", word: "accommodate", sentence: "The hotel can accommodate a family of six.", definition: "to have enough room for", grade: 8 },
   { id: "g8-adolescent", word: "adolescent", sentence: "An adolescent grows quickly between childhood and adulthood.", definition: "a young person between child and adult", grade: 8 },

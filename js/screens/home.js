@@ -18,7 +18,7 @@ export function render() {
   }).join('');
   setView(`<div class="hero">
     ${beeHtml({ size: 'lg' })}
-    <h1>Spell Hive</h1>
+    <h1>Spelling Hive</h1>
     <p class="lead">Listen. Type. Build your spelling.</p>
   </div>
   <h2 style="text-align:center">Who's spelling today?</h2>

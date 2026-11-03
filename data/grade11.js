@@ -1,4 +1,4 @@
-// Grade 11 spelling words. Written fresh for Spell Hive.
+// Grade 11 spelling words. Written fresh for Spelling Hive.
 export default [
   { id: "g11-abhorrent", word: "abhorrent", sentence: "The idea of cheating on a test is abhorrent to her.", definition: "hateful; causing deep disgust", grade: 11 },
   { id: "g11-abrasive", word: "abrasive", sentence: "The abrasive sponge scraped the burnt food off the pan.", definition: "rough and wearing away a surface", grade: 11 },

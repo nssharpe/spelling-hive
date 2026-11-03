@@ -1,4 +1,4 @@
-// Grade 7 spelling words. Written fresh for Spell Hive.
+// Grade 7 spelling words. Written fresh for Spelling Hive.
 export default [
   { id: "g7-achievement", word: "achievement", sentence: "Finishing the marathon was a huge achievement for her.", definition: "something done successfully through effort", grade: 7 },
   { id: "g7-advertisement", word: "advertisement", sentence: "We saw an advertisement for the new game during the show.", definition: "a public notice that promotes a product", grade: 7 },

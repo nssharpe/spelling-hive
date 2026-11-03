@@ -9,8 +9,8 @@
 
 import { getHub, effectiveSettings } from './hub-client.js';
 
-export const SETTINGS_KEY = 'spell-hive:hub-settings';
-export const OUTBOX_KEY = 'spell-hive:outbox';
+export const SETTINGS_KEY = 'spelling-hive:hub-settings';
+export const OUTBOX_KEY = 'spelling-hive:outbox';
 export const DEFAULT_RATES = { spellingWordsPerTicket: 3 };
 const MAX_TICKETS_PER_EVENT = 200; // the hub's rules reject more
 const HUB_KIDS = ['zyler', 'kadyn']; // the outbox only accepts the hub's own kid ids

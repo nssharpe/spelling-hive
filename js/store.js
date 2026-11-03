@@ -17,7 +17,7 @@
 import { uid } from './util.js';
 import { cardId } from './session.js';
 
-export const STORAGE_KEY = 'spell-hive:v1';
+export const STORAGE_KEY = 'spelling-hive:v1';
 export const DB_VERSION = 1;
 
 export const MIN_GRADE = 5;

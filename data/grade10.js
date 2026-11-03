@@ -1,4 +1,4 @@
-// Grade 10 spelling words. Written fresh for Spell Hive.
+// Grade 10 spelling words. Written fresh for Spelling Hive.
 export default [
   { id: "g10-abbreviation", word: "abbreviation", sentence: "Mr. is an abbreviation for mister.", definition: "a shortened form of a word", grade: 10 },
   { id: "g10-acclimate", word: "acclimate", sentence: "It takes a few days to acclimate to the high altitude.", definition: "to get used to a new climate or setting", grade: 10 },

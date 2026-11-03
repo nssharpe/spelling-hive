@@ -1,4 +1,4 @@
-// Grade 9 spelling words. Written fresh for Spell Hive.
+// Grade 9 spelling words. Written fresh for Spelling Hive.
 export default [
   { id: "g9-abundance", word: "abundance", sentence: "The garden produced an abundance of tomatoes this summer.", definition: "a large, more-than-enough amount", grade: 9 },
   { id: "g9-accessible", word: "accessible", sentence: "The new ramp makes the building accessible to everyone.", definition: "easy to reach, enter, or use", grade: 9 },

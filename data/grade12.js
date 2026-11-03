@@ -1,4 +1,4 @@
-// Grade 12 spelling words. Written fresh for Spell Hive.
+// Grade 12 spelling words. Written fresh for Spelling Hive.
 export default [
   { id: "g12-conscientious", word: "conscientious", sentence: "A conscientious student checks every answer twice before turning in the test.", definition: "careful and thorough about doing what is right", grade: 12 },
   { id: "g12-idiosyncrasy", word: "idiosyncrasy", sentence: "Her habit of eating pie before dinner is a charming idiosyncrasy.", definition: "a quirk peculiar to one person", grade: 12 },

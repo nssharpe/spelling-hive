@@ -1,6 +1,6 @@
 // Card ids and the in-session loop. Which words to study is chosen by
 // buildSpellingQueue in spell.js.
-// Spell Hive has one card per word, with id `w:<wordId>` (built-in bank words and
+// Spelling Hive has one card per word, with id `w:<wordId>` (built-in bank words and
 // grown-up custom words alike).
 
 import { MIN } from './util.js';

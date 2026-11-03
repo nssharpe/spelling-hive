@@ -72,7 +72,7 @@ export function renderBar() {
   const bar = document.getElementById('bar');
   if (!bar) return;
   const hub = app.db && app.db.hub;
-  bar.innerHTML = `<a class="brand" href="#/" aria-label="Spell Hive home">${beeHtml({ size: 'sm', idle: false })}<span>Spell Hive</span></a>
+  bar.innerHTML = `<a class="brand" href="#/" aria-label="Spelling Hive home">${beeHtml({ size: 'sm', idle: false })}<span>Spelling Hive</span></a>
     <nav aria-label="Site">
       ${hub && hub.kid ? `<a href="${e(hubUrl(hub.kid))}">← Hub</a>` : ''}
       <a href="#/grown-ups">Grown-ups</a>

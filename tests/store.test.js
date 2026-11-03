@@ -13,7 +13,7 @@ function memStorage() {
 
 test('default data has Zyler and Kadyn at grade 5, no custom words, and a namespaced key', () => {
   const db = defaultDB();
-  assert.equal(STORAGE_KEY, 'spell-hive:v1');
+  assert.equal(STORAGE_KEY, 'spelling-hive:v1');
   assert.deepEqual(db.profiles.map(p => p.id), ['zyler', 'kadyn']);
   assert.deepEqual(db.profiles.map(p => p.name), ['Zyler', 'Kadyn']);
   for (const p of db.profiles) {
@@ -37,7 +37,7 @@ test('save and load round-trip; garbage falls back to defaults', () => {
   const db = defaultDB();
   db.progress.zyler.grade = 8;
   assert.equal(saveDB(db, s), true);
-  assert.ok(s._m.has('spell-hive:v1'));
+  assert.ok(s._m.has('spelling-hive:v1'));
   assert.equal(loadDB(s).progress.zyler.grade, 8);
   s.setItem(STORAGE_KEY, '{not json');
   assert.equal(loadDB(s).progress.zyler.grade, 5);

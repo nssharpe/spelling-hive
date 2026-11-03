@@ -1,4 +1,4 @@
-// Grade 6 spelling words. Written fresh for Spell Hive.
+// Grade 6 spelling words. Written fresh for Spelling Hive.
 export default [
   { id: "g6-absence", word: "absence", sentence: "His absence from class was noticed by everyone.", definition: "the state of being away", grade: 6 },
   { id: "g6-acceptable", word: "acceptable", sentence: "Chewing with your mouth open is not acceptable.", definition: "good enough to be allowed", grade: 6 },

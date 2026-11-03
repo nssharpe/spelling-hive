@@ -107,7 +107,7 @@ function view() {
     <div class="panel">
       <h3>Family hub</h3>
       ${hub ? `<p>Connected${hub.kid ? ` (opened as ${e(hub.kid)})` : ''}. First-try words earn TV tickets.</p><button class="btn red" id="leave">Disconnect from the hub</button>`
-            : '<p>Not connected. Open Spell Hive from the family hub to earn TV tickets and sync progress.</p>'}
+            : '<p>Not connected. Open Spelling Hive from the family hub to earn TV tickets and sync progress.</p>'}
     </div>
 
     <div class="row"><button class="btn" id="lock">Lock</button><a class="btn primary" href="#/">Done</a></div>

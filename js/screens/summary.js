@@ -25,7 +25,7 @@ export function renderSummary(d) {
 
   let ticket = '';
   if (!d.hubOn) {
-    ticket = '<div class="ticketline dim" id="ticketline">Join the family hub to earn TV tickets<br><span class="small muted">Open Spell Hive from the family hub to connect this device.</span></div>';
+    ticket = '<div class="ticketline dim" id="ticketline">Join the family hub to earn TV tickets<br><span class="small muted">Open Spelling Hive from the family hub to connect this device.</span></div>';
   } else if (d.eligible && d.tickets >= 1) {
     ticket = `<div class="ticketline" id="ticketline" role="status">+${plural(d.tickets, 'ticket', 'tickets')} on the way to the hub…</div>`;
   } else if (d.eligible) {

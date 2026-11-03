@@ -1,4 +1,4 @@
-// Grade 5 spelling words. Written fresh for Spell Hive.
+// Grade 5 spelling words. Written fresh for Spelling Hive.
 export default [
   { id: "g5-believe", word: "believe", sentence: "Do you believe in ghosts?", definition: "to accept something as true", grade: 5 },
   { id: "g5-library", word: "library", sentence: "We borrow books from the library every Saturday.", definition: "a place where books can be borrowed", grade: 5 },

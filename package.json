@@ -1,8 +1,8 @@
 {
-  "name": "spell-hive",
+  "name": "spelling-hive",
   "private": true,
   "type": "module",
-  "description": "Spell Hive — a spelling app for grades 5 to 12",
+  "description": "Spelling Hive — a spelling app for grades 5 to 12",
   "scripts": {
     "test": "node --test tests/*.test.js",
     "serve": "python -m http.server 8782"
