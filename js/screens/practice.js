@@ -1,19 +1,16 @@
 // The practice screen: hear the word, type it, get feedback. One session is up to 15 words.
 //
-// Bookkeeping, per word PRESENTED (never for the forced retype after a miss):
-//   recordAttempt once  -> history, card.miss, stats, and `firstTry`
-//   schedule the SRS card separately (AGAIN on a miss, GOOD on a right answer)
-//   updateGrade, and note any grade change for the summary
-//   first-try-correct words are banked as ticket units (when this kid can earn hub tickets)
-// A card that comes back later in the session is a new presentation, so it records again.
+// Bookkeeping lives in practice-core.js applyAnswer (ruling R13): a word's history entry, stats,
+// ticket unit and grade check count only on its FIRST showing in the session. A card still in
+// learning steps comes back later in the same session; those re-shows only schedule the SRS card.
+// The forced retype after a miss is never recorded.
 
 import { app } from '../app.js';
 import { setView, e, isModalOpen } from '../ui.js';
 import { ALL_WORDS } from '../words.js';
 import { cardId, Session } from '../session.js';
-import { checkSpelling, recordAttempt, buildSpellingQueue } from '../spell.js';
-import { updateGrade } from '../level.js';
-import { schedule, newCard, AGAIN, GOOD } from '../srs.js';
+import { checkSpelling, buildSpellingQueue } from '../spell.js';
+import { applyAnswer, newSessionState } from '../practice-core.js';
 import { settleSession, cachedRates, hubKidOk } from '../hubtickets.js';
 import { beeHtml, setBee } from '../art.js';
 import { sfx, voicesReady, canSpeak, onVoicesChanged, stopSpeech } from '../audio.js';
@@ -47,16 +44,11 @@ export async function render({ pid }) {
   const canEarn = !!hub && hubKidOk(pid);
 
   const S = {
+    ...newSessionState(prog.grade),
     phase: 'idle',           // ask | retype | done | idle
     w: null, input: '',
     completed: new Set(),    // card ids finished at least once this session
-    presented: new Set(),    // word ids
-    right: new Map(),        // first-try-correct words
-    missed: new Map(),       // words missed at least once
-    gradeChanges: [],
-    units: 0,                // first-try words banked as ticket units
-    attempts: 0,
-    startGrade: prog.grade,
+    attempts: 0,             // answers given (any showing)
     finished: false,
     nextAt: 0,
   };
@@ -140,19 +132,10 @@ export async function render({ pid }) {
     S.phase = 'feedback'; // no re-entry while we process
     const now = Date.now();
     const res = checkSpelling(skipped ? '' : raw, w.word);
-    const { firstTry } = recordAttempt(prog, w.id, res.ok, now);   // exactly once per presented word
     const id = cardId(w.id);
-    prog.cards[id] = schedule(prog.cards[id] || newCard(), res.ok ? GOOD : AGAIN, now);
-    session.answered(id, prog.cards[id], now);
-    S.attempts++; S.presented.add(w.id);
-    if (res.ok && firstTry) {
-      S.right.set(w.id, w);
-      if (canEarn) { prog.ticketUnits = (Number(prog.ticketUnits) || 0) + 1; S.units++; }
-    }
-    if (!res.ok) S.missed.set(w.id, w);
-    const before = prog.grade;
-    const g = updateGrade(prog, now);
-    if (g.changed) S.gradeChanges.push({ from: before, to: g.grade, dir: g.changed });
+    // recordAttempt/tickets/updateGrade on the first showing only; every showing schedules the card.
+    const { firstTry } = applyAnswer({ prog, session, st: S, w, ok: res.ok, now, canEarn });
+    S.attempts++;
     app.save();
 
     form.classList.add('hidden');
@@ -162,7 +145,7 @@ export async function render({ pid }) {
       S.phase = 'done';
       sfx.correct();
       setBee(bee(), 'wow', 'bounce');
-      const cheer = firstTry ? ['Yes!', 'Nice one!', 'Spot on!', 'Buzzing!'][S.attempts % 4] : 'You got it this time!';
+      const cheer = firstTry || S.right.has(w.id) ? ['Yes!', 'Nice one!', 'Spot on!', 'Buzzing!'][S.attempts % 4] : 'You got it this time!';
       $('#fb').innerHTML = `<div class="fb good" role="status">
         <h2>${cheer}</h2>
         <div class="word-big" translate="no">${e(w.word)}</div>
@@ -234,7 +217,7 @@ export async function render({ pid }) {
     const now = Date.now();
     const rates = cachedRates(app.storage, now);
     const per = rates.spellingWordsPerTicket;
-    const { tickets, event } = settleSession(prog, { kid: pid, hub, rates, now, units: S.units });
+    const { tickets, event } = settleSession(prog, { kid: pid, hub, rates, now });
     let queued = false;
     if (event) {
       queued = app.outbox().add(event);

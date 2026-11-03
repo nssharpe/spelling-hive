@@ -62,41 +62,46 @@ const ctx = { kid: 'zyler', hub: 'hub-abcde-abcde-abcde-abcde', rates: DEFAULT_R
 test('settleSession: banked units make whole tickets and an event; the remainder stays', () => {
   const prog = newProgress();
   prog.ticketUnits = 4; // banked word by word during the session
-  const r = settleSession(prog, { ...ctx, units: 4 });
+  const r = settleSession(prog, { ...ctx });
   assert.equal(r.tickets, 1);
   assert.equal(prog.ticketUnits, 1);
-  assert.deepEqual(r.event, { id: 'spelling:zyler:1762200000000', kid: 'zyler', app: 'spelling', tickets: 1, ts: 1762200000000, detail: '4 words' });
+  assert.deepEqual(r.event, { id: 'spelling:zyler:1762200000000', kid: 'zyler', app: 'spelling', tickets: 1, ts: 1762200000000, detail: '3 words' });
 });
 
 test('settleSession: under one ticket means no event', () => {
   const prog = newProgress();
   prog.ticketUnits = 2;
-  const r = settleSession(prog, { ...ctx, units: 2 });
+  const r = settleSession(prog, { ...ctx });
   assert.equal(r.tickets, 0);
   assert.equal(r.event, null);
   assert.equal(prog.ticketUnits, 2);
 });
 
-test('settleSession: a single word is "1 word"; the detail stays within 80 characters', () => {
+test('settleSession: the detail counts the words converted into the tickets, not words answered', () => {
   const prog = newProgress();
-  prog.ticketUnits = 3;
-  const r = settleSession(prog, { ...ctx, units: 1 });
-  assert.equal(r.event.detail, '1 word');
+  prog.ticketUnits = 8; // e.g. 2 carried over + 6 this session
+  const r = settleSession(prog, { ...ctx });
+  assert.equal(r.tickets, 2);
+  assert.equal(r.event.detail, '6 words');
+  assert.equal(prog.ticketUnits, 2);
+  const one = newProgress();
+  one.ticketUnits = 1;
+  assert.equal(settleSession(one, { ...ctx, rates: { spellingWordsPerTicket: 1 } }).event.detail, '1 word');
 });
 
 test('settleSession: without a hub code, or for a non-hub kid, nothing is awarded or kept', () => {
   const prog = newProgress();
   prog.ticketUnits = 5;
-  assert.equal(settleSession(prog, { ...ctx, hub: null, units: 5 }).event, null);
+  assert.equal(settleSession(prog, { ...ctx, hub: null }).event, null);
   assert.equal(prog.ticketUnits, 5, 'untouched');
-  assert.equal(settleSession(prog, { ...ctx, kid: 'p-xyz', units: 5 }).event, null);
+  assert.equal(settleSession(prog, { ...ctx, kid: 'p-xyz' }).event, null);
   assert.equal(prog.ticketUnits, 5);
 });
 
 test('settleSession: honours the hub rate', () => {
   const prog = newProgress();
   prog.ticketUnits = 4;
-  const r = settleSession(prog, { ...ctx, rates: { spellingWordsPerTicket: 2 }, units: 4 });
+  const r = settleSession(prog, { ...ctx, rates: { spellingWordsPerTicket: 2 } });
   assert.equal(r.tickets, 2);
   assert.equal(prog.ticketUnits, 0);
 });

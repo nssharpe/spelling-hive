@@ -237,7 +237,7 @@ input[type=checkbox] { width: 22px; height: 22px; accent-color: var(--ink); vert
 .diffrow .l.same { background: transparent; padding: 0 1px; }
 .diffrow .l.wrong { background: var(--bad-bg); color: var(--bad); text-decoration: underline; text-decoration-thickness: 4px; text-underline-offset: 4px; }
 .diffrow .l.missing { background: var(--honey-pale); color: var(--ink); border: 2px dashed var(--ink); }
-.diffrow .l.extra { background: var(--bad-bg); color: var(--bad); text-decoration: line-through; text-decoration-thickness: 4px; }
+.diffrow .l.extra { background: var(--bad-bg); color: var(--bad); text-decoration: line-through; text-decoration-thickness: 2px; }
 .diffrow .l.gap { background: transparent; color: var(--ink); border: 2px dashed var(--ink-soft); min-width: 1em; }
 .diffrow.typed .l { font-size: 1.5rem; }
 .diffcap { font-size: .85rem; font-weight: 700; color: var(--ink-soft); text-transform: uppercase; letter-spacing: .05em; margin: 8px 0 0; }

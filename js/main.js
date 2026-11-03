@@ -4,16 +4,7 @@ import { app, startSyncLoop } from './app.js';
 import { readHandoff } from './hub-client.js';
 import { refreshRates } from './hubtickets.js';
 import { setAudioSettings, primeSpeech, sfx } from './audio.js';
-
-// [pattern, loader, exported function name]. Each screen module exports
-// render({pid, arg, params}) and may return a cleanup function.
-const routes = [
-  [/^\/?$/, () => import('./screens/home.js')],
-  [/^\/p\/([\w-]+)$/, () => import('./screens/home.js'), 'renderKid'],
-  [/^\/p\/([\w-]+)\/practice$/, () => import('./screens/practice.js')],
-  [/^\/p\/([\w-]+)\/placement$/, () => import('./screens/placement.js')],
-  [/^\/grown-ups$/, () => import('./screens/grownups.js')],
-];
+import { resolve, redirectFor } from './routes.js';
 
 let cleanup = null;
 let renderSeq = 0;
@@ -43,22 +34,23 @@ async function route() {
   catch { hash = ''; } // a malformed hash (stray %) goes home instead of hanging on Loading
   const seq = ++renderSeq;
   if (cleanup) { try { cleanup(); } catch (e) { console.error(e); } cleanup = null; }
-  for (const [re, load, entry = 'render'] of routes) {
-    const m = hash.match(re);
-    if (!m) continue;
-    const pid = m[1];
-    if (re.source.startsWith('^\/p\/') && !app.profile(pid)) { app.go('/'); return; }
-    const mod = await load();
-    if (seq !== renderSeq) return;
-    try {
-      cleanup = (await mod[entry]({ pid, arg: m[2], params: m })) || null;
-    } catch (e) {
-      console.error(e);
-      document.getElementById('app').innerHTML = `<div class="panel"><h2>Something broke.</h2><p>${String(e.message || e).replace(/</g, '&lt;')}</p><a class="btn primary" href="#/">Back home</a></div>`;
-    }
-    return;
+  const r = resolve(hash);
+  if (!r) { app.go('/'); return; }
+  const { route: rt, m } = r;
+  const pid = m[1];
+  if (redirectFor(hash, id => !!app.profile(id))) { app.go('/'); return; }
+  const mod = await rt.load();
+  if (seq !== renderSeq) return;
+  try {
+    const c = (await mod[rt.entry || 'render']({ pid, arg: m[2], params: m })) || null;
+    // A newer navigation started while this screen was rendering: it already ran (and missed)
+    // the cleanup, so run it now and don't keep its listeners.
+    if (seq !== renderSeq) { if (c) { try { c(); } catch (err) { console.error(err); } } return; }
+    cleanup = c;
+  } catch (e) {
+    console.error(e);
+    document.getElementById('app').innerHTML = `<div class="panel"><h2>Something broke.</h2><p>${String(e.message || e).replace(/</g, '&lt;')}</p><a class="btn primary" href="#/">Back home</a></div>`;
   }
-  app.go('/');
 }
 
 app.init();

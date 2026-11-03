@@ -62,7 +62,7 @@ export function hubKidOk(kid) {
 
 /**
  * End of a session: turn the banked units into tickets.
- *   ctx = { kid, hub (hub code or null), rates, now, units }   units = first-try words this session
+ *   ctx = { kid, hub (hub code or null), rates, now }
  * Returns { tickets, event } where event is null when there is nothing to send. With no hub code
  * (or a kid the hub doesn't know) nothing is awarded and prog is left alone.
  */
@@ -70,7 +70,9 @@ export function settleSession(prog, ctx) {
   if (!ctx.hub || !hubKidOk(ctx.kid)) return { tickets: 0, event: null };
   const tickets = awardTickets(prog, 0, ctx.rates.spellingWordsPerTicket);
   if (tickets < 1) return { tickets: 0, event: null };
-  const n = Math.max(0, Math.round(ctx.units || 0));
+  // The event says how many words were actually converted into these tickets (not how many were
+  // answered this session: some units were carried over, some are carried forward).
+  const n = Math.max(1, Math.round(tickets * ctx.rates.spellingWordsPerTicket));
   return {
     tickets,
     event: {

@@ -35,6 +35,8 @@ the bee/honeycomb look, and hub tickets are in. Not published yet (no GitHub rep
 | `js/main.js` | Hash router. Screens live in `js/screens/*`, each exporting `render({pid, arg, params})`. |
 | `js/ui.js`, `js/fx.js` | Modals, confirm, `setView` (also draws the top bar, with "← Hub" when the device came from the hub); confetti, toasts, floaters. |
 | `js/hub-client.js` | Copied verbatim from `nssharpe/family-hub` `js/hub-client.js` (first line is the only difference). Keep identical. `readHandoff`, `createOutbox`, `getHub`, `effectiveSettings`. |
+| `js/practice-core.js` | `applyAnswer`: the per-answer bookkeeping, pure. recordAttempt, ticket unit and updateGrade only on a word's FIRST showing in a session (R13); every showing schedules the SRS card. |
+| `js/routes.js` | Route table, `resolve`, `redirectFor` (unknown kid goes home). Pure. |
 | `js/hubtickets.js` | `awardTickets`, `settleSession`, hub-rate cache (`spell-hive:hub-settings`), outbox key (`spell-hive:outbox`). Pure. |
 | `js/audio.js` | English voice picking (en-US, en-GB, any en), `sayWord` ("word. sentence. word."), `voicesReady`, sound effects. |
 | `js/art.js` | Bea the bee (moods happy/wow/sad/wink/think) and a hex shape, as inline SVG. |
@@ -42,7 +44,7 @@ the bee/honeycomb look, and hub tickets are in. Not published yet (no GitHub rep
 
 ## Practice rules
 
-- `recordAttempt` runs once per word *presented*; the forced retype after a miss is never recorded. The SRS card is scheduled separately (AGAIN on a miss, GOOD on a right answer), then `updateGrade` runs.
+- `recordAttempt`, the ticket unit and `updateGrade` happen only on a word's FIRST showing in a session. A card still in learning steps comes back later in the same session (learn-ahead); those re-shows only schedule the SRS card (AGAIN on a miss, GOOD on a right answer). The forced retype after a miss is never recorded.
 - First-try-correct words are banked into `prog.ticketUnits` as they happen (only with a hub code and a hub kid, `zyler`/`kadyn`). `settleSession` turns whole multiples of `spellingWordsPerTicket` (hub rate, default 3) into one `spelling:<kid>:<ts>` event for the outbox; the remainder stays. Leaving mid-session still settles.
 - Without an English voice (`voicesReady` waits ~1.5 s once), the prompt shows the sentence with the word blanked, plus the meaning, and replay is hidden.
 - Placement (3 words per grade, stop at a grade with 2 misses) never records attempts or tickets; leaving part-way saves nothing.
